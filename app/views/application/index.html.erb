@@ -1,11 +1,30 @@
 <div class="h-100 w-full flex items-center justify-center bg-teal-lightest font-sans">
   <div class="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4">
-    <div class="mb-4">
+    <div class="mb-6">
       <h1 class="text-gray-900 font-bold text-3xl">Todo List</h1>
       <div class="flex mt-4">
-        <input class="add-todo-input" placeholder="Add Todo">
-        <button class="add-btn">Add</button>
+        <%= form_for :todo, url: todos_path, html: { class: 'w-full' } do |f| %>
+          <div class="form-group flex">
+            <%= f.text_field :name, class: 'add-todo-input', placeholder: 'Add Todo' %>
+            <%= f.submit 'Add', class: 'add-btn' %>
+          </div>
+        <% end %>
       </div>
+    </div>
+    <div>
+      <% @todos.each do |todo| %>
+        <div class="flex mb-4 items-center justify-between ">
+          <p class="<%= todo.status == 'completed' ? 'line-through text-green-500' : 'text-gray-900' %>"><%= todo.name %></p>
+          <div>
+            <% if todo.status == 'completed' %>
+              <button class="p-2 ml-4 mr-2 border-2 rounded hover:text-white text-gray-500 border-gray-500 hover:bg-gray-500">Not Done</button>
+            <% elsif todo.status == 'created' %>
+              <button class="p-2 ml-4 mr-2 border-2 rounded hover:text-white text-green-500 border-green-500 hover:bg-green-500">Done</button>
+            <% end %>
+            <button class="flex-no-shrink p-2 ml-2 border-2 rounded text-red-500 border-red-500 hover:text-white hover:bg-red-500">Remove</button>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
